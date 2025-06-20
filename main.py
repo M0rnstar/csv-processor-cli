@@ -4,6 +4,7 @@ from csv_processor import (
     apply_filter,
     apply_aggregation,
     print_table,
+    print_aggregation_table,
 )
 
 
@@ -21,7 +22,11 @@ def main():
 
     if args.aggregate:
         result = apply_aggregation(data, args.aggregate)
-        print(f"Агрегация ({args.aggregate}): {result}")
+        try:
+            operation, column = args.aggregate.split(":")
+        except ValueError:
+            operation, column = args.aggregate, "?"
+        print_aggregation_table(operation, column, result)
         return
 
     print_table(data)
